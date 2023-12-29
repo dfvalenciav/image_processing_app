@@ -6,7 +6,7 @@ const path = require('path');
 async function resizeImage(filename: string, width: string, height:string) {
   try {
     // Replacing 'utilities/images' with the correct path to your images folder
-    const imagePath = path.join(__dirname, 'utilities', 'images', `${filename}.jpg`);
+    const imagePath = path.join('src', 'utilities', 'images', `${filename}.jpg`);
 
     // Reading the image
     const imageBuffer = await sharp(imagePath)

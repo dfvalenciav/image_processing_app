@@ -1,11 +1,13 @@
 import express from 'express';
 import resizeImage from '../sharp/sharp';
+import trafficMiddleware from './middleware/trafficMiddleware';
 
 const app = express();
 const port = 3000;
 const path = require('path');
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(trafficMiddleware);
 
 app.get('/api', (req, res) => {
   res.send('Image processing in progress ...');
@@ -25,7 +27,7 @@ app.get('/api/images', async (req, res) => {
     // Resizing the image using sharp module / resizeImage
     const imageBuffer = await resizeImage(filename, width, height);
 
-    // Set the content type to 'image/jpeg' (or appropriate content type)
+    // Seting the content type to 'image/jpeg' (or appropriate content type)
     res.contentType('image/jpeg');
     // Sending the resized image data as the response
     res.send(imageBuffer);
@@ -39,3 +41,5 @@ app.listen(port, () => {
   console.log(`server started at localhost:${port}`);
 });
 
+
+export default app;
