@@ -6,7 +6,9 @@
   "scripts": {
     "test": "test",
     "build": "npx tsc",
-    "start": "nodemon src/index.ts"
+    "start": "nodemon src/index.ts",
+    "lint": "eslint .",
+    "format": "prettier --write ."
   },
   "keywords": [
     "image",
@@ -30,6 +32,9 @@
     "@types/jasmine": "^5.1.4",
     "@types/node": "^20.10.4",
     "@types/supertest": "^2.0.16",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.2",
     "nodemon": "^3.0.2",
     "prettier": "^3.1.1",
     "ts-node": "^10.9.2",

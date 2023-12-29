@@ -1,19 +1,18 @@
 import express from 'express';
-
-
+import resizeImage from '../sharp/sharp';
 
 const app = express();
 const port = 3000;
 const path = require('path');
-const sharp = require('sharp');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/api', (req, res) =>{
-    res.send('Image processing in progress ...');
-})
+app.get('/api', (req, res) => {
+  res.send('Image processing in progress ...');
+});
 
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static files from the 'public' folder
+app.use(express.static('public'));
 
 // Defining the API endpoint to serve and resize the image
 app.get('/api/images', async (req, res) => {
@@ -23,15 +22,10 @@ app.get('/api/images', async (req, res) => {
     const width = String(req.query.width);
     const height = String(req.query.height);
 
-    // Replacing 'utilities/images' with the correct path of the images folder
-    const imagePath = path.join(__dirname, 'utilities', 'images', `${filename}.jpg`);
+    // Resizing the image using sharp module / resizeImage
+    const imageBuffer = await resizeImage(filename, width, height);
 
-    // Reading the image
-    const imageBuffer = await sharp(imagePath)
-      .resize(parseInt(width), parseInt(height))
-      .toBuffer();
-
-    // Setting the content type to 'image/jpeg' 
+    // Set the content type to 'image/jpeg' (or appropriate content type)
     res.contentType('image/jpeg');
     // Sending the resized image data as the response
     res.send(imageBuffer);
@@ -41,9 +35,7 @@ app.get('/api/images', async (req, res) => {
   }
 });
 
-
-app.listen(port, ()=> {
-    console.log(`server started at localhost:${port}`)
+app.listen(port, () => {
+  console.log(`server started at localhost:${port}`);
 });
 
-console.log("hello world");
