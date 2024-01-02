@@ -4,7 +4,7 @@
   "description": "Image processing api that use express as backend and retrieve images for different sizes on the web",
   "main": "index.js",
   "scripts": {
-    "test": "npm run build && npm run jasmine --verbose",
+    "test": "npm run build && npm run jasmine",
     "build": "npx tsc",
     "jasmine": "jasmine",
     "start": "nodemon src/index.ts",
