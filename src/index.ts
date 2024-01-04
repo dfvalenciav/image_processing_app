@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import resizeImage from '../sharp/sharp';
 import trafficMiddleware from './middleware/trafficMiddleware';
 
@@ -9,7 +9,7 @@ const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(trafficMiddleware);
 
-app.get('/api', (req, res) => {
+app.get('/api', (req: Request, res: Response) => {
   res.send('Image processing in progress ...');
 });
 
@@ -17,7 +17,7 @@ app.get('/api', (req, res) => {
 app.use(express.static('public'));
 
 // Defining the API endpoint to serve and resize the image
-app.get('/api/images', async (req, res) => {
+app.get('/api/images', async (req: Request, res: Response) => {
   try {
     // Getting query parameters with single quotes
     const filename = String(req.query.filename);
@@ -40,6 +40,5 @@ app.get('/api/images', async (req, res) => {
 app.listen(port, () => {
   console.log(`server started at localhost:${port}`);
 });
-
 
 export default app;

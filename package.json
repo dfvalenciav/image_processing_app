@@ -8,8 +8,8 @@
     "build": "npx tsc",
     "jasmine": "jasmine",
     "start": "nodemon src/index.ts",
-    "lint": "eslint .",
-    "format": "prettier --write ."
+    "lint": "eslint . src/**/*.ts",
+    "format": "prettier src/**/*.ts --write "
   },
   "keywords": [
     "image",
@@ -19,8 +19,6 @@
   "author": "Daniel Valencia",
   "license": "MIT",
   "dependencies": {
-    "axios": "^1.6.2",
-    "csvtojson": "^2.0.10",
     "express": "^4.18.2",
     "jasmine": "^5.1.0",
     "jasmine-spec-reporter": "^7.0.0",
@@ -33,6 +31,7 @@
     "@types/jasmine": "^5.1.4",
     "@types/node": "^20.10.4",
     "@types/supertest": "^2.0.16",
+    "babel-eslint": "^10.1.0",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.2",
