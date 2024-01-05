@@ -24,6 +24,18 @@ app.get('/api/images', async (req: Request, res: Response) => {
     const width = String(req.query.width);
     const height = String(req.query.height);
 
+    // Validate parameters
+    if (!filename || !/^[a-zA-Z0-9]+$/.test(filename)) {
+      return res.status(400).json({ error: 'Invalid filename. Please provide a valid alphanumeric filename.' });
+    }
+
+    const parsedWidth: number = parseInt(width, 10);
+    const parsedHeight: number = parseInt(height, 10);
+
+    if (isNaN(parsedWidth) || isNaN(parsedHeight) || parsedWidth <= 0 || parsedHeight <= 0) {
+      return res.status(400).json({ error: 'Invalid width or height. Please provide valid positive numeric values.' });
+    }
+
     // Resizing the image using sharp module / resizeImage
     const imageBuffer = await resizeImage(filename, width, height);
 
@@ -33,7 +45,7 @@ app.get('/api/images', async (req: Request, res: Response) => {
     res.send(imageBuffer);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send(error);
   }
 });
 
