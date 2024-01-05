@@ -18,7 +18,7 @@ describe('Test to manage error handling', () => {
     // Make a request with invalid parameters to trigger an error in sharpModule
     await request(app)
       .get('/api/images?filename=nonexistent&width=100&height=100')
-      .expect(500, 'Internal Server Error');
+      .expect(500, '{"message":"Input file is missing: src\\\\utilities\\\\images\\\\nonexistent.jpg"}');
   });
 });
 
