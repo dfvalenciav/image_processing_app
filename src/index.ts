@@ -26,14 +26,25 @@ app.get('/api/images', async (req: Request, res: Response) => {
 
     // Validate parameters
     if (!filename || !/^[a-zA-Z0-9]+$/.test(filename)) {
-      return res.status(400).json({ error: 'Invalid filename. Please provide a valid alphanumeric filename.' });
+      return res.status(400).json({
+        error:
+          'Invalid filename. Please provide a valid alphanumeric filename.',
+      });
     }
 
     const parsedWidth: number = parseInt(width, 10);
     const parsedHeight: number = parseInt(height, 10);
 
-    if (isNaN(parsedWidth) || isNaN(parsedHeight) || parsedWidth <= 0 || parsedHeight <= 0) {
-      return res.status(400).json({ error: 'Invalid width or height. Please provide valid positive numeric values.' });
+    if (
+      isNaN(parsedWidth) ||
+      isNaN(parsedHeight) ||
+      parsedWidth <= 0 ||
+      parsedHeight <= 0
+    ) {
+      return res.status(400).json({
+        error:
+          'Invalid width or height. Please provide valid positive numeric values.',
+      });
     }
 
     // Resizing the image using sharp module / resizeImage
