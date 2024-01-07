@@ -13,7 +13,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sharp_1 = __importDefault(require("sharp"));
+const fs_1 = __importDefault(require("fs"));
 const path = require('path');
+function fileExists(filePath) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield fs_1.default.promises.access(filePath);
+            return true;
+        }
+        catch (error) {
+            return false;
+        }
+    });
+}
 function resizeImage(filename, width, height) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -33,6 +45,13 @@ function resizeImage(filename, width, height) {
             }
             // Replacing 'utilities/images' with the correct path to your images folder
             const imagePath = path.join('src', 'utilities', 'images', `${filename}.jpg`);
+            const cachedImagePath = path.join('src', 'utilities', 'cache', `${filename}-${width}-${height}.jpg`);
+            // Check if the cached image exists
+            if (yield fileExists(cachedImagePath)) {
+                // If cached image exists, serve it
+                console.log(`Serving cached image: ${cachedImagePath}`);
+                return yield fs_1.default.promises.readFile(cachedImagePath);
+            }
             // Reading the image
             const imageBuffer = yield (0, sharp_1.default)(imagePath)
                 .resize(parsedWidth, parsedHeight)
@@ -41,6 +60,8 @@ function resizeImage(filename, width, height) {
             if (imageBuffer === null) {
                 throw new Error('Error resizing image');
             }
+            yield fs_1.default.promises.writeFile(cachedImagePath, imageBuffer);
+            console.log(`Saved and served resized image: ${cachedImagePath}`);
             return imageBuffer;
         }
         catch (error) {
